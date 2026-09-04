@@ -1,0 +1,34 @@
+workflows:
+  android-html-app:
+    name: NEXA Player Full App
+    max_build_duration: 15
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - ionic-credentials
+      node: latest
+      java: 17
+    triggering:
+      events:
+        - push
+    scripts:
+      - name: Build Cordova APK with Full Server Access
+        script: |
+          npm install -g cordova
+          mkdir -p workspace
+          cp -R * workspace/ || true
+          rm -rf workspace/nexa-app workspace/workspace || true
+          rm -f workspace/codemagic.yaml workspace/icon2.png || true
+          cordova create nexa-app com.edoardo.nexaplayer "NEXA Player"
+          cd nexa-app
+          rm -rf www/*
+          cp -R ../workspace/* www/ || true
+          if [ -f "../icon2.png" ]; then cp ../icon2.png www/icon2.png; fi
+          
+          # Configurazione con sblocco totale dei server e icona impostata su icon2.png
+          echo '<widget id="com.edoardo.nexaplayer" version="1.0.0" xmlns="http://w3.org" xmlns:cdv="http://apache.org"><name>NEXA Player</name><description>NEXA Player Server Connected</description><author>Edoardo</author><content src="index.html" /><access origin="*" /><allow-navigation href="*" /><allow-navigation href="http://*/*" /><allow-navigation href="https://*/*" /><allow-intent href="http://*/*" /><allow-intent href="https://*/*" /><platform name="android"><icon src="www/icon2.png" /><edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://android.com"><application android:usesCleartextTraffic="true" /></edit-config></platform></widget>' > config.xml
+          
+          cordova platform add android --noscript
+          cordova build android --debug --device
+    artifacts:
+      - nexa-app/platforms/android/app/build/outputs/apk/debug/*.apk
