@@ -1,0 +1,4 @@
+.home-visualizer{overflow:hidden!important;clip-path:inset(0 0 0 0);height:320px!important;bottom:-2px!important;}
+.home-visualizer canvas,.home-visualizer .visualizer-canvas{transform:translateY(-2px) scaleY(1.65);transform-origin:center bottom;}
+/* The visual universe rises almost to the greeting, leaving about 0.5 cm of breathing room. */
+.hero-content,.hero-content>*:first-child{position:relative;z-index:3;}

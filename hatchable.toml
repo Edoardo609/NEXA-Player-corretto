@@ -1,0 +1,5 @@
+# Hatchable project manifest. This file marks the folder as a
+# Hatchable project and declares the services it uses.
+# Reference: https://hatchable.com/docs/developers/config
+name = "NEXA Player"
+description = "A futuristic offline-first Android-oriented music player experience with local library, playlists, favorites, player UI, visual universe, Music Cinema, Audio Lab, Music DNA, Smart Queue, Replay, profiles, themes, bilingual UI, and persistent local state."
